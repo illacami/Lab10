@@ -31,7 +31,7 @@ public class Flow {
 
 	@Override
 	public String toString() {
-		return "Flow [day=" + day + ", flow=" + flow + ", river=" + river + "]";
+		return day + " " + flow + " " + river + "\n";
 	}
 
 	

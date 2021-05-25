@@ -1,21 +1,29 @@
 package it.polito.tdp.rivers.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
+import it.polito.tdp.rivers.db.RiversDAO;
 
 public class River {
 	private int id;
 	private String name;
 	private double flowAvg;
 	private List<Flow> flows;
+	private RiversDAO dao;
 	
 	public River(int id) {
 		this.id = id;
 	}
 
 	public River(int id, String name) {
+		this.dao = new RiversDAO();
 		this.id = id;
 		this.name = name;
+		this.flows = new LinkedList<Flow>();
+		dao.setAvgFlow(this);
 	}
 
 	public String getName() {
@@ -54,7 +62,7 @@ public class River {
 
 	@Override
 	public String toString() {
-		return name;
+		return name + "\n";
 	}
 
 	@Override
@@ -77,5 +85,33 @@ public class River {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	
+	public LocalDate getFirstDate() {
+		
+		if(flows.isEmpty())
+			return null;
+		
+		LocalDate date = LocalDate.parse("2021-12-31");
+		
+		for(Flow f : flows) {
+			if(f.getDay().isBefore(date))
+				date = f.getDay();
+		}
+		return date;
+	}
+	
+	public LocalDate getLastDate() {
+		
+		if(flows.isEmpty())
+			return null;
+		
+		LocalDate date = LocalDate.parse("1900-12-31");
+		
+		for(Flow f : flows) {
+			if(f.getDay().isAfter(date))
+				date = f.getDay();
+		}
+		return date;
 	}
 }

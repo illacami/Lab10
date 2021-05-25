@@ -12,6 +12,7 @@ public class River {
 	private String name;
 	private double flowAvg;
 	private List<Flow> flows;
+	private int totMeasurements;
 	private RiversDAO dao;
 	
 	public River(int id) {
@@ -23,7 +24,7 @@ public class River {
 		this.id = id;
 		this.name = name;
 		this.flows = new LinkedList<Flow>();
-		dao.setAvgFlow(this);
+		this.totMeasurements = this.dao.setAvgFlow(this);
 	}
 
 	public String getName() {
@@ -58,6 +59,18 @@ public class River {
 		if (flows == null)
 			flows = new ArrayList<Flow>();
 		return flows;
+	}
+	
+	
+	
+	
+
+	public int getTotMeasurements() {
+		return totMeasurements;
+	}
+
+	public void setTotMeasurements(int totMeasurements) {
+		this.totMeasurements = totMeasurements;
 	}
 
 	@Override

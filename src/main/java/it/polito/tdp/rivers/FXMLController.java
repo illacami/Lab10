@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import it.polito.tdp.rivers.model.Model;
 import it.polito.tdp.rivers.model.River;
+import it.polito.tdp.rivers.model.SimulationResult;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -63,6 +64,20 @@ public class FXMLController {
 		        	txtEndDate.setText(river.getLastDate()+" ");
 		        	txtFMed.setText(model.getAvg(river)+" ");
 		        }
+    }
+    
+    @FXML
+    void doSimula(ActionEvent event) {
+    	try {
+			double k = Double.parseDouble(txtK.getText());
+			SimulationResult sr = model.simulate(boxRiver.getValue(), k);
+			txtResult.setText("Numero di giorni \"critici\": "
+					+ sr.getNumberOfDays() + "\n");
+			txtResult.appendText("Occupazione media del bacino: " + sr.getAvgC() + "\n");
+			txtResult.appendText("SIMULAZIONE TERMINATA!\n");
+		} catch (NumberFormatException nfe) {
+			txtResult.setText("Devi inserire un valore numerico per il fattore k");
+		}
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
